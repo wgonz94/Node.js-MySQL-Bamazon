@@ -69,6 +69,7 @@ function viewProducts(){
            }
     
     });
+    dispManagerList();
     
 
 };
@@ -93,20 +94,73 @@ function lowInventory(){
 function addMore(){
     inquirer
     .prompt({
-      name: "action",
-      type: "list",
-      message: "Which products would you like to restock?",
+      name: "id",
+      type: "input",
+      message: "Which products would you like to restock?\n Input item id",
       filter: Number
       
     })
     .then(function(answer) {
-      switch (answer.action) {
-      
-      }
+      var idSearch = answer.id
+      restockProd(idSearch);
     });
-
 };
+
+function restockProd() {
+    var query = "UPDATE products SET ? WHERE ?"
+    connection.query(query,[{stock_quantity: 20}, {id: idSearch}])
+    console.log("\nThe item's quantity has been updated!")
+    dispManagerList();
+}
 
 function addNew(){
+    inquirer.prompt([
+        {
+        name: "product",
+        type: "input",
+        message: "What is the product name?",
+        },
+        {
+        name: "department",
+        type: "input",
+        message: "What department is it from?",
+        },
+        {
+         name: "price",
+         type: "input",
+         message: "What is it priced at?",
+        },
+        {
+        name: "quantity",
+        type: "input",
+        message: "how much stock do you need? (limit: 20)",
+        filter: Number
+        }
+    ]).then(function(answer){
+        var inputProduct = answer.product;
+        var inputDepart = answer.department;
+        var inputPrice = answer.price;
+        var inputQuant = answer.quantity;
 
+        inputNew(inputProduct, inputDepart, inputPrice, inputQuant);
+    });
 };
+
+function inputNew(product, depart, price, quantity){
+    var query = connection.query(
+        "INSERT INTO products SET ?",
+        {
+          product_name: product,
+          department_name: depart,
+          price: price,
+          stock_quantity: quantity,
+        },
+        function(err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " product inserted!\n");
+          
+          dispManagerList();
+        }
+      );
+    
+}
