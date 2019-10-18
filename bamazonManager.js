@@ -18,6 +18,7 @@ connection.connect(function(err){
 });
 
 function dispManagerList() {
+    console.log("\n\n\n\n\n")
     inquirer
     .prompt({
       name: "action",
@@ -68,6 +69,7 @@ function viewProducts(){
             console.log("====================================================================================")   
            }
     
+    console.log("\n\n\n\n")
     });
     dispManagerList();
     
@@ -75,20 +77,20 @@ function viewProducts(){
 };
 
 function lowInventory(){
-    console.log("\n Let's check for low inventory")
+    console.log("-----------------------------------------------")
+    console.log(" Let's check for low inventory")
+    console.log("-----------------------------------------------")
     connection.query("SELECT * FROM products", function(err, res){
         if(err) throw err;
         for(var i = 0; i < res.length; i++){
             if(res[i].stock_quantity <= 5) {
-                console.log("Here are the items with low quantities:\n\n");
+                console.log("Here are the items with low quantities:");
                 console.log("\n" + res[i].id + " || " + res[i].product_name + " || In-stock: " + res[i].stock_quantity + " ||\n");
 
-            } else {
-                console.log("No low quantity items");
-            }
+            } 
         }
     });
-    dispManagerList();
+    connection.end();
 }
 
 function addMore(){
@@ -106,7 +108,7 @@ function addMore(){
     });
 };
 
-function restockProd() {
+function restockProd(idSearch) {
     var query = "UPDATE products SET ? WHERE ?"
     connection.query(query,[{stock_quantity: 20}, {id: idSearch}])
     console.log("\nThe item's quantity has been updated!")
