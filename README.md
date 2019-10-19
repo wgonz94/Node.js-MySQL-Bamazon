@@ -32,7 +32,7 @@ an Amazon-like storefront, "Bamazon", application with the MySQL skills. The app
 
 * *Lastly*, it will update the database.
 
-![Item-Order-Update](images/bamazonItemOrderUpdate)
+![Item-Order-Update](images/bamazonItemOrderUpdate.JPG)
 
 * if the user orders **too much**, or there is **not enough stock quantity**, they will receive an error message.
 
