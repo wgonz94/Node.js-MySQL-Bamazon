@@ -72,7 +72,7 @@ function invoiceOrder(idSearch, amount){
    
 }
 function endProcess(){
-    console.log("Come back soon!")
+    console.log("Goodbye!")
     connection.end();
     
 };
